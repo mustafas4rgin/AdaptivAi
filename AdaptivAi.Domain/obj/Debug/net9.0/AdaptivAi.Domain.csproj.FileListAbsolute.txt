@@ -1,0 +1,12 @@
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/bin/Debug/net9.0/AdaptivAi.Domain.deps.json
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/bin/Debug/net9.0/AdaptivAi.Domain.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/bin/Debug/net9.0/AdaptivAi.Domain.pdb
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/AdaptivAi.Domain.csproj.AssemblyReference.cache
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/AdaptivAi.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/AdaptivAi.Domain.AssemblyInfoInputs.cache
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/AdaptivAi.Domain.AssemblyInfo.cs
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/AdaptivAi.Domain.csproj.CoreCompileInputs.cache
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/AdaptivAi.Domain.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/refint/AdaptivAi.Domain.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/AdaptivAi.Domain.pdb
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/obj/Debug/net9.0/ref/AdaptivAi.Domain.dll

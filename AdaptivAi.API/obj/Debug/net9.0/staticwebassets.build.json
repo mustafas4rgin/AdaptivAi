@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "kGTBooARKBiZRKaUIn1lbaDxFiTc9VB0Bs2/AyrVjwQ=",
+  "Source": "AdaptivAi.API",
+  "BasePath": "_content/AdaptivAi.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

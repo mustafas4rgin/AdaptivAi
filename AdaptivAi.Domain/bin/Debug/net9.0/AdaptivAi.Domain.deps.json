@@ -1,0 +1,89 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "AdaptivAi.Domain/1.0.0": {
+        "dependencies": {
+          "System.Text.Json": "10.0.13"
+        },
+        "runtime": {
+          "AdaptivAi.Domain.dll": {}
+        }
+      },
+      "System.IO.Pipelines/10.0.13": {
+        "runtime": {
+          "lib/net9.0/System.IO.Pipelines.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.1326.50504"
+          }
+        }
+      },
+      "System.Text.Encodings.Web/10.0.13": {
+        "runtime": {
+          "lib/net9.0/System.Text.Encodings.Web.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.1326.50504"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll": {
+            "rid": "browser",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.1326.50504"
+          },
+          "runtimes/win/lib/net9.0/System.Text.Encodings.Web.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.1326.50504"
+          }
+        }
+      },
+      "System.Text.Json/10.0.13": {
+        "dependencies": {
+          "System.IO.Pipelines": "10.0.13",
+          "System.Text.Encodings.Web": "10.0.13"
+        },
+        "runtime": {
+          "lib/net9.0/System.Text.Json.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.1326.50504"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AdaptivAi.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.IO.Pipelines/10.0.13": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KyPO1f2rgg2GK211d0khYeqWtVsV8Veu/3dvl9V+vml9uLVc9AkxfQg7ay3fi0Nfznf6LNltPSe06VefT+hLVA==",
+      "path": "system.io.pipelines/10.0.13",
+      "hashPath": "system.io.pipelines.10.0.13.nupkg.sha512"
+    },
+    "System.Text.Encodings.Web/10.0.13": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rNYrJlPi22TM3PhkWdgB0jPYw/umbURQWlu1kg1nbsu3wP6LHsCBdG7NOG3Jf/8/CaC7WjE7tSH+TiQepPbOVQ==",
+      "path": "system.text.encodings.web/10.0.13",
+      "hashPath": "system.text.encodings.web.10.0.13.nupkg.sha512"
+    },
+    "System.Text.Json/10.0.13": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IjBLCOgNyv48I7G69EWDUalJ0mVHyZdiH1drbPrNsQRJssvjmGVn0Q/CoZSG1RGUCCCgpdiQbZI4i9Z6Q5jnWQ==",
+      "path": "system.text.json/10.0.13",
+      "hashPath": "system.text.json.10.0.13.nupkg.sha512"
+    }
+  }
+}

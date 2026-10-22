@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "phRaX0NMjUg=",
+  "success": true,
+  "projectFilePath": "/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Domain/AdaptivAi.Domain.csproj",
+  "expectedPackageFiles": [
+    "/Users/s4rgin/.nuget/packages/system.io.pipelines/10.0.13/system.io.pipelines.10.0.13.nupkg.sha512",
+    "/Users/s4rgin/.nuget/packages/system.text.encodings.web/10.0.13/system.text.encodings.web.10.0.13.nupkg.sha512",
+    "/Users/s4rgin/.nuget/packages/system.text.json/10.0.13/system.text.json.10.0.13.nupkg.sha512"
+  ],
+  "logs": []
+}
