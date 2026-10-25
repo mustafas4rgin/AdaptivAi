@@ -44,12 +44,16 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 5. CORS Politikası
+// 5. CORS Politikası (Vercel ve Localhost erişimleri)
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowViteApp", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+        policy.WithOrigins(
+                "https://adaptiv-ai-mocha.vercel.app",
+                "http://localhost:5173",
+                "https://localhost:5173"
+              )
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -58,6 +62,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// CORS mutlaka Authentication ve Authorization öncesinde çalışmalıdır
 app.UseCors("AllowViteApp");
 
 if (app.Environment.IsDevelopment())
