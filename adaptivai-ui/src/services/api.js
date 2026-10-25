@@ -1,9 +1,12 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5133/api/coach';
+// Canlı ortamda Vercel'deki env variable'ı, yoksa Render URL'sini kullanır
+const API_ROOT = import.meta.env.VITE_API_URL || 'https://adaptivai.onrender.com';
+const BASE_URL = `${API_ROOT}/api`;
+const COACH_URL = `${BASE_URL}/coach`;
 
 const api = axios.create({
-  baseURL: 'http://localhost:5133/api',
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -37,34 +40,34 @@ api.interceptors.response.use(
 
 // --- Günlük Check-In & AI Adaptasyonu ---
 export const checkInAndAdapt = async (userId, data) => {
-  const response = await axios.post(`${API_BASE_URL}/check-in-and-adapt?userId=${userId}`, data);
+  const response = await api.post(`/coach/check-in-and-adapt?userId=${userId}`, data);
   return response.data;
 };
 
 export const chatWithCoach = async (userId, message) => {
-  const response = await axios.post(`${API_BASE_URL}/chat`, { userId, message });
+  const response = await api.post('/coach/chat', { userId, message });
   return response.data;
 };
 
 export const getTodayStatus = async (userId) => {
-  const response = await axios.get(`${API_BASE_URL}/today/${userId}`);
+  const response = await api.get(`/coach/today/${userId}`);
   return response.data;
 };
 
 export const getWorkoutHistory = async (userId) => {
-  const response = await axios.get(`${API_BASE_URL}/history/${userId}`);
+  const response = await api.get(`/coach/history/${userId}`);
   return response.data;
 };
 
 // --- Rutin & Antrenman Planı İşlemleri ---
 export const getUserRoutines = async (userId) => {
-  const response = await axios.get(`${API_BASE_URL}/routines/${userId}`);
+  const response = await api.get(`/coach/routines/${userId}`);
   return response.data;
 };
 
 export const saveUserRoutine = async (userId, routineData) => {
   const payload = Array.isArray(routineData) ? { days: routineData } : routineData;
-  const response = await axios.post(`${API_BASE_URL}/routines/${userId}`, payload);
+  const response = await api.post(`/coach/routines/${userId}`, payload);
   return response.data;
 };
 
@@ -117,12 +120,12 @@ export const getOverloadAdvice = async (userId) => {
 
 // --- Kullanıcı Profil İşlemleri ---
 export const getUserProfile = async (userId) => {
-  const response = await axios.get(`${API_BASE_URL}/profile/${userId}`);
+  const response = await api.get(`/coach/profile/${userId}`);
   return response.data;
 };
 
 export const saveUserProfile = async (userId, profileData) => {
-  const response = await axios.post(`${API_BASE_URL}/profile/${userId}`, profileData);
+  const response = await api.post(`/coach/profile/${userId}`, profileData);
   return response.data;
 };
 
