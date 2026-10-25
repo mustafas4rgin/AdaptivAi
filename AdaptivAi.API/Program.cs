@@ -1,7 +1,10 @@
+using System.Text;
 using AdaptivAi.API.Endpoints;
 using AdaptivAi.Infrastructure.Data;
 using AdaptivAi.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,14 +13,38 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString, b => b.MigrationsAssembly("AdaptivAi.Infrastructure")));
 
-// 2. Gemini Servisi Kaydı
+// 2. Servis Kayıtları
 builder.Services.AddHttpClient<GeminiCoachService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
-// 3. Swagger Dokümantasyonu
+// 3. JWT Kimlik Doğrulama
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "AdaptivAi_Very_Long_And_Super_Secret_Security_Key_2026_AI!";
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "AdaptivAiAPI",
+        ValidAudience = builder.Configuration["Jwt:Audience"] ?? "AdaptivAiClient",
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// 4. Swagger Dokümantasyonu (Sadeleştirilmiş)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// 4. CORS Politikası
+// 5. CORS Politikası
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowViteApp", policy =>
@@ -31,7 +58,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// CORS en tepede ve sadece 1 kere olmalı
 app.UseCors("AllowViteApp");
 
 if (app.Environment.IsDevelopment())
@@ -40,10 +66,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Development ortamında HTTP isteklerini bozmaması için HttpsRedirection'ı kapatalım veya pasife alalım
-// app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
-// Tüm Coach Endpoint'lerini bağla
+// Endpoint Bağlantıları
+app.MapAuthEndpoints();
 app.MapCoachEndpoints();
 
 app.Run();

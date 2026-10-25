@@ -1,4 +1,5 @@
 namespace AdaptivAi.API.DTOs;
+
 public class RoutineExerciseDto
 {
     public Guid Id { get; set; }
@@ -7,4 +8,5 @@ public class RoutineExerciseDto
     public string TargetReps { get; set; } = string.Empty;
     public double TargetRpe { get; set; }
     public int OrderIndex { get; set; }
+    public double? TargetWeightKg { get; set; } // Sadece tek bir tane kalacak
 }

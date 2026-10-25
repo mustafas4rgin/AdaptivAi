@@ -6,8 +6,11 @@
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/AdaptivAi.API.runtimeconfig.json
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/AdaptivAi.API.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/AdaptivAi.API.pdb
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/BCrypt-Net-Next.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Humanizer.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.Bcl.AsyncInterfaces.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.Bcl.Cryptography.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.Build.Locator.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.CodeAnalysis.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.CodeAnalysis.CSharp.dll
@@ -33,6 +36,12 @@
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.Extensions.Options.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Microsoft.OpenApi.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Mono.TextTemplating.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/Npgsql.dll
@@ -47,6 +56,7 @@
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/System.Composition.Runtime.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/System.Composition.TypedParts.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/System.Diagnostics.DiagnosticSource.dll
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/System.IO.Pipelines.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/System.Text.Encodings.Web.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/bin/Debug/net9.0/System.Text.Json.dll
@@ -128,6 +138,7 @@
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/obj/Debug/net9.0/AdaptivAi.API.csproj.CoreCompileInputs.cache
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/obj/Debug/net9.0/AdaptivAi.API.MvcApplicationPartsAssemblyInfo.cs
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/obj/Debug/net9.0/AdaptivAi.API.MvcApplicationPartsAssemblyInfo.cache
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/obj/Debug/net9.0/AdaptivAi.API.sourcelink.json
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/obj/Debug/net9.0/scopedcss/bundle/AdaptivAi.API.styles.css
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/obj/Debug/net9.0/staticwebassets.build.json
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.API/obj/Debug/net9.0/staticwebassets.development.json

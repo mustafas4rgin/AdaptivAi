@@ -8,12 +8,13 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+    public DbSet<CoachChatMessage> CoachChatMessages { get; set; }
     public DbSet<UserProfile> UserProfiles => Set<UserProfile>();
     public DbSet<DailyCheckIn> DailyCheckIns => Set<DailyCheckIn>();
     public DbSet<WorkoutLog> WorkoutLogs => Set<WorkoutLog>();
-
+    public DbSet<WorkoutProgram> WorkoutPrograms => Set<WorkoutProgram>();
     public DbSet<WorkoutRoutine> WorkoutRoutines => Set<WorkoutRoutine>();
-public DbSet<RoutineExercise> RoutineExercises => Set<RoutineExercise>();
+    public DbSet<RoutineExercise> RoutineExercises => Set<RoutineExercise>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,10 +26,11 @@ public DbSet<RoutineExercise> RoutineExercises => Set<RoutineExercise>();
             .HasForeignKey(e => e.WorkoutRoutineId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<UserProfile>()
-            .HasMany(u => u.CheckIns)
-            .WithOne(c => c.UserProfile)
-            .HasForeignKey(c => c.UserProfileId);
+        modelBuilder.Entity<DailyCheckIn>()
+    .HasOne(c => c.UserProfile)
+    .WithMany() // Koleksiyon navigation'ı belirtmeden tek yönlü ilişki
+    .HasForeignKey(c => c.UserProfileId)
+    .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<UserProfile>()
             .HasMany(u => u.WorkoutLogs)

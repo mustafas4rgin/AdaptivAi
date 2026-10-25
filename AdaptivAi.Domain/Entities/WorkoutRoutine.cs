@@ -9,6 +9,8 @@ public class WorkoutRoutine
     public bool IsRestDay { get; set; } = false; // Dinlenme günü mü?
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public Guid? WorkoutProgramId { get; set; }
+public WorkoutProgram? WorkoutProgram { get; set; }
 
     public UserProfile? UserProfile { get; set; }
     public List<RoutineExercise> Exercises { get; set; } = new();

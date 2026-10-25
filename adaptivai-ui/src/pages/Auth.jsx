@@ -1,23 +1,54 @@
 import React, { useState } from 'react';
-import { Activity, Lock, Mail, User, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Activity, Lock, Mail, User, ArrowRight, ShieldCheck, RefreshCw, AlertCircle } from 'lucide-react';
+import api from '../services/api';
 
 export default function Auth({ onLogin }) {
   const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Şimdilik mock auth: Bilgileri localStorage'a atıp içeri alıyoruz
-    const mockUser = {
-      id: '11111111-1111-1111-1111-111111111111',
-      name: isLogin ? 'Mustafa' : (formData.fullName || 'Mustafa'),
-      email: formData.email || 'mustafa@adaptivai.com'
-    };
-    onLogin(mockUser);
+    setErrorMessage('');
+    setLoading(true);
+
+    try {
+      if (isLogin) {
+        // 1. Giriş Yap
+        const res = await api.post('/auth/login', {
+          email: formData.email,
+          password: formData.password
+        });
+        
+        // Backend AuthResponse döner: { token, userId, email, fullName }
+        onLogin(res.data);
+      } else {
+        // 2. Kayıt Ol
+        const res = await api.post('/auth/register', {
+          fullName: formData.fullName,
+          email: formData.email,
+          password: formData.password,
+          age: 26,
+          heightCm: 180,
+          weightKg: 80,
+          fitnessLevel: 'Orta',
+          primaryGoal: 'Hipertrofi'
+        });
+
+        onLogin(res.data);
+      }
+    } catch (err) {
+      console.error('Auth Hatası:', err);
+      const msg = err.response?.data?.message || (isLogin ? 'Giriş başarısız. E-posta veya şifre hatalı.' : 'Kayıt oluşturulamadı.');
+      setErrorMessage(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,11 +73,19 @@ export default function Auth({ onLogin }) {
           </p>
         </div>
 
+        {/* Hata Bildirimi */}
+        {errorMessage && (
+          <div className="mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
         {/* Tab Geçişi (Giriş Yap / Kayıt Ol) */}
         <div className="flex bg-slate-950/80 p-1 rounded-xl border border-slate-800 mb-6 text-xs font-semibold">
           <button
             type="button"
-            onClick={() => setIsLogin(true)}
+            onClick={() => { setIsLogin(true); setErrorMessage(''); }}
             className={`flex-1 py-2 rounded-lg transition-all cursor-pointer ${
               isLogin 
                 ? 'bg-emerald-500 text-slate-950 shadow-md' 
@@ -57,7 +96,7 @@ export default function Auth({ onLogin }) {
           </button>
           <button
             type="button"
-            onClick={() => setIsLogin(false)}
+            onClick={() => { setIsLogin(false); setErrorMessage(''); }}
             className={`flex-1 py-2 rounded-lg transition-all cursor-pointer ${
               !isLogin 
                 ? 'bg-emerald-500 text-slate-950 shadow-md' 
@@ -119,10 +158,17 @@ export default function Auth({ onLogin }) {
 
           <button
             type="submit"
-            className="w-full mt-2 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-500/20"
+            disabled={loading}
+            className="w-full mt-2 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-500/20 disabled:opacity-50"
           >
-            <span>{isLogin ? 'Koç Paneline Giriş Yap' : 'Hesabımı Oluştur'}</span>
-            <ArrowRight className="w-4 h-4" />
+            {loading ? (
+              <RefreshCw className="w-4 h-4 animate-spin" />
+            ) : (
+              <>
+                <span>{isLogin ? 'Koç Paneline Giriş Yap' : 'Hesabımı Oluştur'}</span>
+                <ArrowRight className="w-4 h-4" />
+              </>
+            )}
           </button>
         </form>
 

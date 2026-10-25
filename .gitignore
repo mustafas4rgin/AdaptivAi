@@ -1,0 +1,20 @@
+# Build / Binary Çıktıları
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Gizli Ayar Dosyaları
+appsettings.json
+appsettings.Development.json
+appsettings.Production.json
+*.local.json
+
+# Node modülleri (frontend)
+node_modules/
+dist/
+
+# Sistem ve Editör
+.DS_Store
+.vscode/
+.idea/

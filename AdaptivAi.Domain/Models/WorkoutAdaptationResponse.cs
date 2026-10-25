@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace AdaptivAi.Domain.Models;
 
+// 1. Senin mevcut WorkoutAdaptationResponse sınıfın (Dokunmadık)
 public class WorkoutAdaptationResponse
 {
     [JsonPropertyName("readiness_score")]
@@ -37,6 +38,27 @@ public class ModifiedExercise
     [JsonPropertyName("rpe")]
     public double Rpe { get; set; }
 
+    [JsonPropertyName("previous_weight_kg")]
+    public double? PreviousWeightKg { get; set; }
+
+    [JsonPropertyName("suggested_weight_kg")]
+    public double? SuggestedWeightKg { get; set; }
+
     [JsonPropertyName("reason")]
     public string Reason { get; set; } = string.Empty;
 }
+
+// 2. Eksik olan Overload/Deload analiz modeli (CS0246 hatasını çözen kısım)
+public class OverloadAdviceResponse
+{
+    [JsonPropertyName("isDeloadRecommended")]
+    public bool IsDeloadRecommended { get; set; }
+
+    [JsonPropertyName("fatigueSummary")]
+    public string FatigueSummary { get; set; } = string.Empty;
+
+    [JsonPropertyName("progressiveTips")]
+    public List<string> ProgressiveTips { get; set; } = new();
+}
+
+// 3. Koç sohbeti ve sakatlık tespit modeli

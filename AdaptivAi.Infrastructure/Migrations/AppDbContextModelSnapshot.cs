@@ -22,6 +22,33 @@ namespace AdaptivAi.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("AdaptivAi.Domain.Entities.CoachChatMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserProfileId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserProfileId");
+
+                    b.ToTable("CoachChatMessages");
+                });
+
             modelBuilder.Entity("AdaptivAi.Domain.Entities.DailyCheckIn", b =>
                 {
                     b.Property<Guid>("Id")
@@ -47,9 +74,14 @@ namespace AdaptivAi.Infrastructure.Migrations
                     b.Property<Guid>("UserProfileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UserProfileId1")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserProfileId");
+
+                    b.HasIndex("UserProfileId1");
 
                     b.ToTable("DailyCheckIns");
                 });
@@ -77,6 +109,9 @@ namespace AdaptivAi.Infrastructure.Migrations
                     b.Property<double>("TargetRpe")
                         .HasColumnType("double precision");
 
+                    b.Property<double?>("TargetWeightKg")
+                        .HasColumnType("double precision");
+
                     b.Property<Guid>("WorkoutRoutineId")
                         .HasColumnType("uuid");
 
@@ -97,6 +132,12 @@ namespace AdaptivAi.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ChronicInjuries")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -108,15 +149,19 @@ namespace AdaptivAi.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("HeightCm")
-                        .HasColumnType("double precision");
+                    b.Property<decimal>("HeightCm")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("PrimaryGoal")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("WeightKg")
-                        .HasColumnType("double precision");
+                    b.Property<decimal>("WeightKg")
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -160,6 +205,35 @@ namespace AdaptivAi.Infrastructure.Migrations
                     b.ToTable("WorkoutLogs");
                 });
 
+            modelBuilder.Entity("AdaptivAi.Domain.Entities.WorkoutProgram", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserProfileId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserProfileId");
+
+                    b.ToTable("WorkoutPrograms");
+                });
+
             modelBuilder.Entity("AdaptivAi.Domain.Entities.WorkoutRoutine", b =>
                 {
                     b.Property<Guid>("Id")
@@ -185,20 +259,40 @@ namespace AdaptivAi.Infrastructure.Migrations
                     b.Property<Guid>("UserProfileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("WorkoutProgramId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserProfileId");
 
+                    b.HasIndex("WorkoutProgramId");
+
                     b.ToTable("WorkoutRoutines");
+                });
+
+            modelBuilder.Entity("AdaptivAi.Domain.Entities.CoachChatMessage", b =>
+                {
+                    b.HasOne("AdaptivAi.Domain.Entities.UserProfile", "UserProfile")
+                        .WithMany()
+                        .HasForeignKey("UserProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserProfile");
                 });
 
             modelBuilder.Entity("AdaptivAi.Domain.Entities.DailyCheckIn", b =>
                 {
                     b.HasOne("AdaptivAi.Domain.Entities.UserProfile", "UserProfile")
-                        .WithMany("CheckIns")
+                        .WithMany()
                         .HasForeignKey("UserProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AdaptivAi.Domain.Entities.UserProfile", null)
+                        .WithMany("CheckIns")
+                        .HasForeignKey("UserProfileId1");
 
                     b.Navigation("UserProfile");
                 });
@@ -225,7 +319,7 @@ namespace AdaptivAi.Infrastructure.Migrations
                     b.Navigation("UserProfile");
                 });
 
-            modelBuilder.Entity("AdaptivAi.Domain.Entities.WorkoutRoutine", b =>
+            modelBuilder.Entity("AdaptivAi.Domain.Entities.WorkoutProgram", b =>
                 {
                     b.HasOne("AdaptivAi.Domain.Entities.UserProfile", "UserProfile")
                         .WithMany()
@@ -236,11 +330,35 @@ namespace AdaptivAi.Infrastructure.Migrations
                     b.Navigation("UserProfile");
                 });
 
+            modelBuilder.Entity("AdaptivAi.Domain.Entities.WorkoutRoutine", b =>
+                {
+                    b.HasOne("AdaptivAi.Domain.Entities.UserProfile", "UserProfile")
+                        .WithMany("WorkoutRoutines")
+                        .HasForeignKey("UserProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AdaptivAi.Domain.Entities.WorkoutProgram", "WorkoutProgram")
+                        .WithMany("Routines")
+                        .HasForeignKey("WorkoutProgramId");
+
+                    b.Navigation("UserProfile");
+
+                    b.Navigation("WorkoutProgram");
+                });
+
             modelBuilder.Entity("AdaptivAi.Domain.Entities.UserProfile", b =>
                 {
                     b.Navigation("CheckIns");
 
                     b.Navigation("WorkoutLogs");
+
+                    b.Navigation("WorkoutRoutines");
+                });
+
+            modelBuilder.Entity("AdaptivAi.Domain.Entities.WorkoutProgram", b =>
+                {
+                    b.Navigation("Routines");
                 });
 
             modelBuilder.Entity("AdaptivAi.Domain.Entities.WorkoutRoutine", b =>

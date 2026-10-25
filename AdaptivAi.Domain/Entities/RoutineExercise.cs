@@ -9,6 +9,7 @@ public class RoutineExercise
     public string TargetReps { get; set; } = "8-10";
     public double TargetRpe { get; set; } = 8.0;
     public int OrderIndex { get; set; } = 0;
+    public double? TargetWeightKg { get; set; }
 
     // Navigation Property
     public WorkoutRoutine? WorkoutRoutine { get; set; }

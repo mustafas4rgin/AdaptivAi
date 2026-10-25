@@ -9,6 +9,7 @@
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Infrastructure/obj/Debug/net9.0/AdaptivAi.Infrastructure.AssemblyInfoInputs.cache
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Infrastructure/obj/Debug/net9.0/AdaptivAi.Infrastructure.AssemblyInfo.cs
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Infrastructure/obj/Debug/net9.0/AdaptivAi.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Infrastructure/obj/Debug/net9.0/AdaptivAi.Infrastructure.sourcelink.json
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Infrastructure/obj/Debug/net9.0/AdaptivA.245DA2D2.Up2Date
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Infrastructure/obj/Debug/net9.0/AdaptivAi.Infrastructure.dll
 /Users/s4rgin/Desktop/AdaptivAi/AdaptivAi.Infrastructure/obj/Debug/net9.0/refint/AdaptivAi.Infrastructure.dll
