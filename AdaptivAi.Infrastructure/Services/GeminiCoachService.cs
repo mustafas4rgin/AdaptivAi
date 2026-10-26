@@ -17,14 +17,18 @@ public class GeminiCoachService
         "gemini-3.8-flash"
     };
 
-    public GeminiCoachService(HttpClient httpClient, IConfiguration configuration)
-    {
-        _httpClient = httpClient;
-        var rawKey = configuration["Gemini:ApiKey"]
-            ?? throw new ArgumentNullException("Gemini:ApiKey yapılandırmada bulunamadı!");
+    // Constructor kontrolü:
+public GeminiCoachService(HttpClient httpClient, IConfiguration configuration)
+{
+    _httpClient = httpClient;
+    // Eğer Render'da key GEMINI_API_KEY ise:
+    _apiKey = configuration["Gemini:ApiKey"] 
+           ?? configuration["Gemini__ApiKey"] 
+           ?? configuration["GEMINI_API_KEY"] 
+           ?? string.Empty;
 
-        _apiKey = rawKey.Trim().Trim('"', '\'');
-    }
+    Console.WriteLine($"[DEBUG] Key uzunluğu: {_apiKey.Length}, İlk 4 hane: {(_apiKey.Length > 4 ? _apiKey[..4] : "YOK")}");
+}
 
     // 0. Prompt Oluşturucu Yardımcı Metotlar (Debug & Logger Köprüsü)
     public string BuildDynamicPrompt(UserProfile user, DailyCheckIn checkIn, string? routineContext = null, string lang = "tr")
@@ -413,59 +417,62 @@ Kurallar:
 
     // 5. HTTP İletişim & URL Güvenliği Metodu
     private async Task<string> PostWithRetryAsync(object payload)
+{
+    string? lastError = null;
+
+    foreach (var model in _candidateModels)
     {
-        string? lastError = null;
+        var cleanModel = model.Trim();
+        var urlString = $"https://generativelanguage.googleapis.com/v1beta/models/{cleanModel}:generateContent";
 
-        foreach (var model in _candidateModels)
+        if (!Uri.TryCreate(urlString, UriKind.Absolute, out var requestUri))
         {
-            var cleanModel = model.Trim();
-            var cleanKey = Uri.EscapeDataString(_apiKey);
-            var urlString = $"https://generativelanguage.googleapis.com/v1beta/models/{cleanModel}:generateContent?key={cleanKey}";
+            Console.WriteLine($"[GEMINI ERROR] Geçersiz URI: {urlString}");
+            continue;
+        }
 
-            if (!Uri.TryCreate(urlString, UriKind.Absolute, out var requestUri))
+        for (int attempt = 1; attempt <= 2; attempt++)
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+
+            // ÖNEMLİ: Çakışabilecek default header'ları temizle ve resmi Google API anahtar başlığını ekle
+            request.Headers.Remove("Authorization");
+            request.Headers.TryAddWithoutValidation("x-goog-api-key", _apiKey.Trim());
+
+            var jsonBody = JsonSerializer.Serialize(payload);
+            request.Content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"[GEMINI ERROR] Geçersiz URI: {urlString}");
+                var responseBody = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseBody);
+                var text = doc.RootElement
+                    .GetProperty("candidates")[0]
+                    .GetProperty("content")
+                    .GetProperty("parts")[0]
+                    .GetProperty("text")
+                    .GetString();
+
+                return text ?? string.Empty;
+            }
+
+            lastError = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"[GEMINI ERROR] Model: {model} | Status: {(int)response.StatusCode} | Detay: {lastError}");
+
+            if ((int)response.StatusCode == 503 || (int)response.StatusCode == 429)
+            {
+                await Task.Delay(1000);
                 continue;
             }
 
-            for (int attempt = 1; attempt <= 2; attempt++)
-            {
-                using var request = new HttpRequestMessage(HttpMethod.Post, requestUri);
-
-                var jsonBody = JsonSerializer.Serialize(payload);
-                request.Content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-
-                var response = await _httpClient.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    using var doc = JsonDocument.Parse(responseBody);
-                    var text = doc.RootElement
-                        .GetProperty("candidates")[0]
-                        .GetProperty("content")
-                        .GetProperty("parts")[0]
-                        .GetProperty("text")
-                        .GetString();
-
-                    return text ?? string.Empty;
-                }
-
-                lastError = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"[GEMINI ERROR] Model: {model} | Status: {(int)response.StatusCode} | Detay: {lastError}");
-
-                if ((int)response.StatusCode == 503 || (int)response.StatusCode == 429)
-                {
-                    await Task.Delay(1000);
-                    continue;
-                }
-
-                break;
-            }
+            break;
         }
-
-        throw new Exception($"Gemini API tüm modellerde başarısız oldu. Son hata: {lastError}");
     }
+
+    throw new Exception($"Gemini API tüm modellerde başarısız oldu. Son hata: {lastError}");
+}
 
     private static string CleanMarkdownJson(string raw)
     {
