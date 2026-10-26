@@ -50,9 +50,11 @@ public static class CoachEndpoints
     );
 
     private static async Task<IResult> GenerateOptimalRoutine(
-        [FromBody] GenerateRoutineRequest request,
-        AppDbContext dbContext,
-        GeminiCoachService coachService)
+    [FromBody] GenerateRoutineRequest request,
+    AppDbContext dbContext,
+    GeminiCoachService coachService)
+{
+    try
     {
         var user = await GetOrCreateUserAsync(request.UserId, dbContext);
 
@@ -65,32 +67,46 @@ public static class CoachEndpoints
         );
 
         if (generatedPlan == null || generatedPlan.Days == null || !generatedPlan.Days.Any())
-            return Results.Problem("Yapay zeka antrenman programı oluşturamadı.");
+        {
+            return Results.BadRequest(new { message = "Yapay zeka antrenman programı oluşturamadı. Lütfen API anahtarını veya parametreleri kontrol edin." });
+        }
 
         return Results.Ok(generatedPlan);
     }
-
-    private static async Task<UserProfile> GetOrCreateUserAsync(Guid userId, AppDbContext dbContext)
+    catch (Exception ex)
     {
-        var user = await dbContext.UserProfiles.FirstOrDefaultAsync(u => u.Id == userId);
-        if (user == null)
-        {
-            user = new UserProfile
-            {
-                Id = userId,
-                FullName = "Sporcu",
-                Age = 25,
-                WeightKg = 80,
-                HeightCm = 180,
-                FitnessLevel = "Orta",
-                PrimaryGoal = "Hipertrofi",
-                ChronicInjuries = string.Empty
-            };
-            dbContext.UserProfiles.Add(user);
-            await dbContext.SaveChangesAsync();
-        }
-        return user;
+        Console.WriteLine($"[GENERATE ERROR CRITICAL]: {ex}");
+        return Results.Problem(detail: ex.Message, statusCode: 500, title: "Optimal Routine Error");
     }
+}
+
+   private static async Task<UserProfile> GetOrCreateUserAsync(Guid userId, AppDbContext dbContext)
+{
+    var user = await dbContext.UserProfiles.FirstOrDefaultAsync(u => u.Id == userId);
+    
+    if (user == null)
+    {
+        user = new UserProfile
+        {
+            Id = userId,
+            Email = $"user_{userId:N}@adaptiv.ai", // Unique / Not Null kısıtlamasına takılmasın
+            PasswordHash = "OAUTH_OR_AUTO_CREATED",
+            FullName = "Sporcu",
+            Age = 25,
+            HeightCm = 180,
+            WeightKg = 80,
+            FitnessLevel = "Orta",
+            PrimaryGoal = "Hipertrofi",
+            ChronicInjuries = string.Empty,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        dbContext.UserProfiles.Add(user);
+        await dbContext.SaveChangesAsync();
+    }
+
+    return user;
+}
 
     // 1. Program Havuzu: Kullanıcının Programlarını Listele
     private static async Task<IResult> GetUserPrograms(Guid userId, AppDbContext dbContext)
