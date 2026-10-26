@@ -18,16 +18,16 @@ export default function RoutineBuilder({ user }) {
   const { lang, t } = useLanguage();
   const navigate = useNavigate();
 
-  // ID'yi prop'tan ya da localStorage'daki 'adaptivai_user' anahtarından güvenli al
+  // GUID / UUID string formatını koruyarak kullanıcı ID'sini al
   const currentUserId = useMemo(() => {
-    if (user?.id) return Number(user.id);
-    if (user?.userId) return Number(user.userId);
+    if (user?.userId) return String(user.userId);
+    if (user?.id) return String(user.id);
     try {
       const stored = localStorage.getItem('adaptivai_user');
       if (stored) {
         const parsed = JSON.parse(stored);
-        const resolvedId = parsed.id || parsed.userId;
-        return resolvedId ? Number(resolvedId) : null;
+        const resolved = parsed.userId || parsed.id;
+        return resolved ? String(resolved) : null;
       }
     } catch {
       // JSON parse hatası koruması
@@ -146,7 +146,7 @@ export default function RoutineBuilder({ user }) {
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-8">
-      {/* Header */}
+      {/* Üst Bilgi Kartı */}
       <div className="flex flex-col gap-2">
         <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
           <Sparkles className="h-3.5 w-3.5" />
@@ -162,9 +162,9 @@ export default function RoutineBuilder({ user }) {
         </p>
       </div>
 
-      {/* Form Section */}
+      {/* Form Alanı */}
       <form onSubmit={handleGenerate} className="grid grid-cols-1 gap-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-md lg:grid-cols-2">
-        {/* Days Per Week */}
+        {/* Gün Sayısı Seçimi */}
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-zinc-400">
             <Calendar className="h-4 w-4 text-emerald-400" />
@@ -188,7 +188,7 @@ export default function RoutineBuilder({ user }) {
           </div>
         </div>
 
-        {/* Focus Area */}
+        {/* Odak Bölgesi */}
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-zinc-400">
             <Flame className="h-4 w-4 text-amber-400" />
@@ -207,7 +207,7 @@ export default function RoutineBuilder({ user }) {
           </select>
         </div>
 
-        {/* Equipment Type */}
+        {/* Ekipman Tipi */}
         <div className="space-y-2 lg:col-span-2">
           <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-zinc-400">
             <Dumbbell className="h-4 w-4 text-blue-400" />
@@ -226,7 +226,7 @@ export default function RoutineBuilder({ user }) {
           </select>
         </div>
 
-        {/* Extra Notes */}
+        {/* Ek Notlar */}
         <div className="space-y-2 lg:col-span-2">
           <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-zinc-400">
             <Layers className="h-4 w-4 text-purple-400" />
@@ -245,7 +245,7 @@ export default function RoutineBuilder({ user }) {
           />
         </div>
 
-        {/* Error Feedback */}
+        {/* Hata Bildirimi */}
         {error && (
           <div className="flex items-center gap-2 rounded-xl border border-red-500/20 bg-red-500/10 p-3 text-xs text-red-400 lg:col-span-2">
             <AlertTriangle className="h-4 w-4 shrink-0" />
@@ -253,7 +253,7 @@ export default function RoutineBuilder({ user }) {
           </div>
         )}
 
-        {/* Submit Button */}
+        {/* Buton */}
         <div className="pt-2 lg:col-span-2">
           <button
             type="submit"
@@ -275,7 +275,7 @@ export default function RoutineBuilder({ user }) {
         </div>
       </form>
 
-      {/* Generated Routine Preview */}
+      {/* Oluşturulan Plan Önizleme Kartları */}
       {generatedPlan && (
         <div className="space-y-6 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 backdrop-blur-md">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
